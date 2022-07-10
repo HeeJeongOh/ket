@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:ket/screens/details_screen.dart';
+import 'package:ket/screens/home_screen.dart';
 import 'constants.dart';
 
 void main() => runApp(const MyApp());
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home: DetailsScreen(),
+      home: HomeScreen(),
     );
   }
 }
