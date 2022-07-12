@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ket/constants.dart';
 
 import 'package:ket/screens/home_screen.dart';
-import 'constants.dart';
+import 'package:ket/screens/setting_screen.dart';
 
 void main() => runApp(const MyApp());
 
