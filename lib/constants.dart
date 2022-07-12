@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 const double defaultPadding = 16.0;
 
 // Colors
-const kPrimaryColor = Color(0xFFFFFFE0);
-const kPrimaryLightColor = Color(0xFFFFFACD);
+const kPrimaryColor = Color.fromARGB(255, 196, 196, 194);
+const kPrimaryLightColor = Color.fromARGB(255, 230, 228, 215);
 const kTextColor = Color(0xFF343434);
 
 // Colors
@@ -13,25 +13,13 @@ const kBestSellerColor = Color(0xFFFFD073);
 const kGreenColor = Color(0xFF49CC96);
 
 // My Text Styles
-const kHeadingextStyle = TextStyle(
-  fontSize: 28,
-  color: kTextColor,
-  fontWeight: FontWeight.bold,
-);
-const kSubheadingextStyle = TextStyle(
-  fontSize: 24,
-  color: Color(0xFF61688B),
-  height: 2,
-);
-
 const kTitleTextStyle = TextStyle(
   fontSize: 20,
   color: kTextColor,
   fontWeight: FontWeight.bold,
 );
-
-const kSubtitleTextStyle = TextStyle(
-  fontSize: 18,
+const kNormalTextStyle = TextStyle(
+  fontSize: 14,
   color: kTextColor,
-  // fontWeight: FontWeight.bold,
+  fontWeight: FontWeight.bold,
 );

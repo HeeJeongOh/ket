@@ -3,7 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ket/constants.dart';
 import 'package:ket/screens/setting_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, String>> categoryCardData = [
     {"name": "전체보기", "color": "black"},
     {"name": "여행", "color": 'red'},
@@ -11,11 +16,26 @@ class HomeScreen extends StatelessWidget {
     {"name": "의류", "color": 'green'},
     {"name": "식당", "color": 'purple'},
   ];
+  List todos = [];
+  String input = "";
+
+  @override
+  void initState() {
+    super.initState();
+    todos.add("Item1");
+    todos.add("Item2");
+    todos.add("Item3");
+    todos.add("Item4");
+    todos.add("Item5");
+    todos.add("Item6");
+    todos.add("Item7");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: kPrimaryColor, elevation: 0, actions: [
+        Expanded(flex: 4, child: Image.asset('assets/icons/ket_logo.png')),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -34,58 +54,97 @@ class HomeScreen extends StatelessWidget {
         )
       ]),
       body: Center(
-          child: Column(children: [
-        SizedBox(
-          height: 10,
-        ),
-        SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Container(
-                    width: 80 * (categoryCardData.length + 1),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(
-                        categoryCardData.length,
-                        (index) => CategoryMediumCard(
-                            name: categoryCardData[index]['name'],
-                            bcolor: categoryCardData[index]['color']),
-                      ),
-                    )))),
-        SingleChildScrollView(
-          scrollDirection: Axis.vertical,
           child: Padding(
-              padding: EdgeInsets.all(20),
-              child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: ((context, index) => bucketCard()))),
-        )
-      ])),
-      // 전체 배경
+              padding: const EdgeInsets.only(top: 10),
+              child: Column(children: [
+                SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Container(
+                            width: 80 * (categoryCardData.length + 1),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: List.generate(
+                                categoryCardData.length,
+                                (index) => CategoryMediumCard(
+                                    name: categoryCardData[index]['name'],
+                                    bcolor: categoryCardData[index]['color']),
+                              ),
+                            )))),
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      //color: kPrimaryColor,
+                      child: ListView.builder(
+                          itemCount: todos.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return bucketItemCard(index);
+                          }),
+                    )),
+              ]))),
+      floatingActionButton: Container(
+          alignment: Alignment.bottomCenter,
+          child: FloatingActionButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                        title: Text("버킷리스트 추가하기"),
+                        content: Column(children: [
+                          TextField(
+                            onChanged: (String value) {
+                              input = value;
+                            },
+                          )
+                        ]),
+                        actions: <Widget>[
+                          FlatButton(
+                              onPressed: () {
+                                setState(() {
+                                  todos.add(input);
+                                });
+                                Navigator.of(context)
+                                    .pop(); // input 입력 후 창 닫히도록
+                              },
+                              child: Text("Add"))
+                        ]);
+                  });
+            },
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          )),
     );
   }
-}
 
-class bucketCard extends StatelessWidget {
-  const bucketCard({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.all(20),
-        child: Expanded(
-            child: Row(
-          children: [
-            Text(
-              '카테고리 ',
-              style: kSubtitleTextStyle,
-            ),
-            SvgPicture.asset('assets/icons/user.png')
-          ],
-        )));
+  Card bucketItemCard(int index) {
+    return Card(
+        margin: EdgeInsets.all(8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: ListTile(
+          leading: Container(
+            alignment: Alignment.center,
+            height: 30,
+            width: 60,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4), color: kPrimaryColor),
+            child: Text(todos[index], style: kNormalTextStyle),
+          ),
+          trailing: IconButton(
+              icon: Icon(Icons.check_box_outline_blank_outlined,
+                  color: kPrimaryColor),
+              onPressed: () {
+                setState(() {
+                  todos.removeAt(index);
+                });
+              }),
+          title: Text(todos[index]),
+        ));
   }
 }
 
@@ -103,16 +162,14 @@ class CategoryMediumCard extends StatelessWidget {
         onTap: () {},
         child: Container(
           width: 80,
-          height: 50,
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           child: Text(
             name!,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-                color: kTextColor, fontSize: 15, fontWeight: FontWeight.bold),
+            style: kNormalTextStyle,
           ),
           decoration: const BoxDecoration(
-            color: kBlueColor,
+            color: kPrimaryLightColor,
             borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
         ));
